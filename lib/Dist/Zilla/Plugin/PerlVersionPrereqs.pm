@@ -54,7 +54,7 @@ sub BUILDARGS {
         zilla       => $zilla,
         plugin_name => $plugin_name,
         _prereqs    => $opts,
-        (map { $_ => $extra{$_} } keys %extra),
+        %extra,
     };
 }
 
