@@ -1,7 +1,28 @@
 package Dist::Zilla::Plugin::PerlVersionPrereqs;
 use Moose;
+# ABSTRACT: set additional prereqs for older perls
 
 with 'Dist::Zilla::Role::InstallTool', 'Dist::Zilla::Role::MetaProvider';
+
+=head1 SYNOPSIS
+
+  ; dist.ini
+  [PerlVersionPrereqs / 5.010]
+  Perl6::Say = 0
+
+=head1 DESCRIPTION
+
+When perl gets new features, oftentimes they are reimplemented as CPAN modules
+for earlier perls which don't have those features. It's a bit silly to
+unconditionally depend on those backwards compatiblity modules if they are just
+going to do nothing at all on the version of perl you're installing them on
+though, so this module allows you to specify that certain dependencies aren't
+required on perls newer than a certain version.
+
+NOTE: This plugin only works on dists that are using the default C<[MakeMaker]>
+plugin.
+
+=cut
 
 has prereq_perl_version => (
     is      => 'ro',
@@ -94,5 +115,56 @@ around dump_config => sub {
 
 __PACKAGE__->meta->make_immutable;
 no Moose;
+
+=head1 BUGS
+
+No known bugs.
+
+Please report any bugs through RT: email
+C<bug-dist-zilla-plugin-perlversionprereqs at rt.cpan.org>, or browse to
+L<http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Dist-Zilla-Plugin-PerlVersionPrereqs>.
+
+=head1 SEE ALSO
+
+L<Dist::Zilla::Plugin::OSPrereqs>
+
+This plugin is based heavily on code from the C<[OSPrereqs]> plugin.
+
+=head1 SUPPORT
+
+You can find this documentation for this module with the perldoc command.
+
+    perldoc Dist::Zilla::Plugin::PerlVersionPrereqs
+
+You can also look for information at:
+
+=over 4
+
+=item * MetaCPAN
+
+L<https://metacpan.org/release/Dist-Zilla-Plugin-PerlVersionPrereqs>
+
+=item * RT: CPAN's request tracker
+
+L<http://rt.cpan.org/NoAuth/Bugs.html?Dist=Dist-Zilla-Plugin-PerlVersionPrereqs>
+
+=item * Github
+
+L<https://github.com/doy/dist-zilla-plugin-perlversionprereqs>
+
+=item * CPAN Ratings
+
+L<http://cpanratings.perl.org/d/Dist-Zilla-Plugin-PerlVersionPrereqs>
+
+=back
+
+=begin Pod::Coverage
+
+  metadata
+  setup_installer
+
+=end Pod::Coverage
+
+=cut
 
 1;
